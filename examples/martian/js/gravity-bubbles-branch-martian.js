@@ -1,3 +1,28 @@
+/**!
+ * gravity-bubbles
+ * This component, using d3js API, draw animated bubbles chart with gravity
+ *
+ * @license 
+ * @author Triad <flores.leonardo@gmail.com> (http://www.triadsoft.com.ar)
+ * @version 0.9.5
+ **/
+
+(function (root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module unless amdModuleId is set
+    define([], function () {
+      return (root['GravityBubbles'] = factory());
+    });
+  } else if (typeof exports === 'object') {
+    // Node. Does not work with strict CommonJS, but
+    // only CommonJS-like environments that support module.exports,
+    // like Node.
+    module.exports = factory();
+  } else {
+    root['GravityBubbles'] = factory();
+  }
+}(this, function () {
+
 /**
 This component based on d3js API draw a chart with floating bubbles, with gravity
 <ul>
@@ -31,6 +56,7 @@ GravityBubbles = function (config) {
         minRadius: 5,
         maxRadius: 40,
         debug: false,
+        radiusMaxBeforeTextHides: 20, 
         //cuando calcula los grupos es la cantidad maxima de columnas
         lanes: 3,
         points: [0, 3, 7, 20, 50, 100],
@@ -624,7 +650,6 @@ GravityBubbles.prototype._draw_group_position = function (d, _this) {
     this
         .attr("x", function (d) {
             //No se si esta bueno hacerlo aca
-            //not good to do here
             if (_this._config.groupById != 'all' && _this._config.groupById != 'color' && this.getComputedTextLength() > d.dx) {
                 var _text = this.innerHTML.split("-");
                 this.innerHTML = _text[0];
@@ -678,7 +703,6 @@ GravityBubbles.prototype._draw_text = function (text, that) {
                     _splited = _text.split(" ");
                 }
                 //Agrego el primer resultado
-                //added the first result
                 tspan.text(_splited[0].trim());
                 if (_splited.length > 1) {
                     tspan = text
@@ -691,7 +715,6 @@ GravityBubbles.prototype._draw_text = function (text, that) {
             }
         }
         //Cuando tiene varias lineas, las alinea centradas
-        //When you have multiple lines , the lines centered
         var _width = this.getBBox().width;
         var nodes = Array.prototype.slice.call(this.childNodes, 0);
         nodes
@@ -706,6 +729,7 @@ GravityBubbles.prototype._draw_text = function (text, that) {
 };
 
 GravityBubbles.prototype._label_position = function (text, that) {
+
     text
     //.transition()
     //.duration(10)
@@ -717,22 +741,32 @@ GravityBubbles.prototype._label_position = function (text, that) {
 
             return "translate(" + (d.x - (box.width / 2)) + "," + (d.y - (box.height / 2)) + ")";
         })
+    
         .attr("visibility", function (_this) {
             return function (d) {
                 var box = this.getBBox();
                 var _radius = _this._radius_by(d);
+
+                /*
                 if (box.width > 0 && box.height > 0 && box.width <= _radius && box.height < _radius) {
                     return "visible";
                 }
+                */
+                console.log("_label_position: ", that._config.radiusMaxBeforeTextHides );
+
+                 if (_radius > that._config.radiusMaxBeforeTextHides ) {
+                    return "visible";
+                }
+
                 return "hidden";
             };
         }(that));
+        ;
 };
 
 
 /**
 Actualiza el rango de valores del radio de las burbujas
-Updates the range of values ​​within bubbles
 */
 GravityBubbles.prototype._update_radius = function () {
     this.radius_scale
@@ -742,7 +776,6 @@ GravityBubbles.prototype._update_radius = function () {
 
 /**
 Toma todas las actualizaciones y las refleja en el grafico
-Take all updates and reflected in the graph
 */
 GravityBubbles.prototype.refresh = function () {
     //Acciones de refresh
@@ -798,7 +831,6 @@ GravityBubbles.prototype._center = function () {
 
 /**
 Dibuja el panel de leyenda
-Draw the legend panel
 */
 GravityBubbles.prototype._draw_legends = function () {
     var legend_layer = this.svg.selectAll("#legend_layer");
@@ -1095,3 +1127,7 @@ CustomTooltip = function (tooltipId, width) {
         updatePosition: updatePosition
     };
 };
+
+return GravityBubbles;
+
+}));

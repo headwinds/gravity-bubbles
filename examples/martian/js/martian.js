@@ -13,7 +13,7 @@ var jsonPath = "js/martian.json";
 var dragonPath = "images/dragon.svg";
 var settlementPath = "images/settlement.svg";
 
-var percentPoints = [14, 21, 28, 35];
+var percentPoints = [3, 5, 8, 12];
 
 var _colors = {
     greenred: {
@@ -41,8 +41,6 @@ var nodes = [];
 var chart;
 
 $(document).ready(function() {
-
-
  
     $('input[name="color-scheme"]').change(function() {
        
@@ -102,6 +100,7 @@ $(document).ready(function() {
         debug: false,
         sizeById: "size",
         colorById: "perc",
+        radiusMaxBeforeTextHides: 40,
         data: {
             tooltip: function(d) {
                 return "Name:<span style='color:#000'> {name}</span><br>Size:<span style='color:#000'> {size}</span><br>Size of Total:<span style='color:#000'> {perc}%</span><br>Channel:<span style='color:#000'> {channel}</span>";
@@ -196,7 +195,7 @@ function perc(node) {
 }
 
 
-var _labels = ["Autonomous", "Chat", "VR", "Web"];
+var _labels = ["Web", "Chat", "VR", "Voice"];
 var _size_thresholds = d3.scale.threshold()
     .domain([40000, 60000, 80000, 100000])
     .range(_labels);
@@ -230,23 +229,42 @@ function forceChannelNames(node){
 
 	// more fakery
 
+	var jobs =[
+				{name: "Health", channel: "Web", value: 4},
+				{name: "Geologists", channel: "VR", value: 1},
+				{name: "Engineers", channel: "Chat", value: 3},
+				{name: "Teachers", channel: "Voice", value: 2},
+				{name: "Sanitation", channel: "Web", value: 3},
+				{name: "Agriculture", channel: "VR", value: 3},
+				{name: "Politicians", channel: "Chat", value: 1},
+				{name: "Psychologists", channel: "Voice", value: 2},
+				{name: "Rangers", channel: "Web", value: 2},
+				{name: "Electricians", channel: "VR", value: 2},
+				{name: "Plumbers", channel: "Chat", value: 3},
+				{name: "Children", channel: "Voice", value: 1},
+				{name: "Artists", channel: "Web", value: 1}, 
+				{name: "Athletes", channel: "VR", value: 1}, 
+				{name: "Designers", channel: "Chat", value: 1}, 
+				{name: "Developers", channel: "Voice", value: 2}, 
+				{name: "Military", channel: "VR", value: 2}, 
+				{name: "Architects", channel: "Chat", value: 2},
+				{name: "Chefs", channel: "Voice", value: 1}, 
+				{name: "Veterinarians", channel: "Web", value: 2}, 
+			  ];
+
 
 	_.each( node.children, function(item){
-				switch(item.name){
-					case "Human" :
-						item.channel = "Chat";
-						break;
-					case "Machine" :
-						item.channel = "Web";
-						break;
-					case "Alien" :
-						item.channel = "VR";
-						break;
-					case "Towel" :
-						item.channel = "Autonomous";
-						break;
-				}
-			});
+				
+		_.each( jobs, function(job){
+
+			if (item.name === job.name ) {
+				item.channel = job.channel; 
+				console.log("hey item.name: " + item.name);
+				console.log("hey item.channel: " + item.channel);
+			}
+
+		})
+	});
 		
 						
 	//return node;
@@ -279,7 +297,7 @@ function updateViewports(){
 	
 	// dragon 
 	
- 	$("#dragonContainer").html("<svg id='dragonViewport' width='100%'></svg>");
+ 	$("#dragonContainer").append("<svg id='dragonViewport' width='100%'></svg>");
 
 	var dragonScope = Snap("#dragonViewport");
 	var dragonGroup = dragonScope.g();
