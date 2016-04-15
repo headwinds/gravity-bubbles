@@ -56,6 +56,7 @@ GravityBubbles = function (config) {
         minRadius: 5,
         maxRadius: 40,
         debug: false,
+        useRadiusLimit: false,
         radiusMaxBeforeTextHides: 20, 
         //cuando calcula los grupos es la cantidad maxima de columnas
         lanes: 3,
@@ -747,15 +748,14 @@ GravityBubbles.prototype._label_position = function (text, that) {
                 var box = this.getBBox();
                 var _radius = _this._radius_by(d);
 
-                /*
-                if (box.width > 0 && box.height > 0 && box.width <= _radius && box.height < _radius) {
-                    return "visible";
-                }
-                */
-                console.log("_label_position: ", that._config.radiusMaxBeforeTextHides );
+                if (that._config.useRadiusLimit) {
+                    
+                    if (_radius > that._config.radiusMaxBeforeTextHides ) return "visible";
+                        
+                } else {
 
-                 if (_radius > that._config.radiusMaxBeforeTextHides ) {
-                    return "visible";
+                    if (box.width > 0 && box.height > 0 && box.width <= _radius && box.height < _radius) return "visible";   
+                    
                 }
 
                 return "hidden";

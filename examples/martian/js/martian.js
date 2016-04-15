@@ -100,6 +100,7 @@ $(document).ready(function() {
         debug: false,
         sizeById: "size",
         colorById: "perc",
+        useRadiusLimit: true,
         radiusMaxBeforeTextHides: 40,
         data: {
             tooltip: function(d) {
