@@ -1,0 +1,83 @@
+{
+    "name": "flare",
+    "children": [
+        {
+            "name": "analytics",
+
+            "size": 43716,
+
+            "category": "medium",
+            "user": "memo"
+  },
+        {
+            "name": "animate",
+
+            "size": 106024,
+
+            "category": "x-large",
+            "user": "memo"
+  },
+        {
+            "name": "data",
+
+            "size": 32284,
+
+            "category": "large",
+            "user": "terminator"
+  },
+        {
+            "name": "display",
+
+            "size": 24254,
+
+            "category": "large",
+            "user": "terminator"
+  },
+        {
+            "name": "flex",
+
+            "size": 1116,
+
+            "category": "medium",
+            "user": "terminator"
+  },
+        {
+            "name": "physics",
+
+            "size": 33934,
+
+            "category": "large",
+            "user": "memo"
+  },
+        {
+            "name": "query",
+
+            "size": 80721,
+
+            "category": "large",
+            "user": "terminator"
+  },
+        {
+            "name": "scale",
+
+            "size": 31594,
+
+            "category": "large",
+            "user": "memo"
+  },
+        {
+            "name": "util",
+
+            "size": 125157,
+
+            "category": "x-large",
+            "user": "alien"
+  },
+        {
+            "name": "vis",
+            "size": 102629,
+            "category": "x-large",
+            "user": "alien"
+  }
+]
+}
