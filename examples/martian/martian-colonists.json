@@ -1,0 +1,7 @@
+{
+ "name": "Colonists",
+ "channel": 1,
+ "children": [
+  	{"name": "Celeste Thorn", "age": 24, "profession":"", "interests":["baking", "running"] },
+  ]
+}
